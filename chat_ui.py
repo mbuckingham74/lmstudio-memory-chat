@@ -17,7 +17,7 @@ LM_STUDIO_URL = os.getenv("LM_STUDIO_URL", "http://host.docker.internal:1234")
 llm = ChatOpenAI(
     base_url=f"{LM_STUDIO_URL}/v1",
     api_key="not-needed",
-    model="qwen/qwen3-coder-30b"
+    model="local-model"  # Works with any model loaded in LM Studio
 )
 
 # Memory functions
