@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  chat-ui:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./chroma_db:/app/chroma_db
+    environment:
+      - LM_STUDIO_URL=http://host.docker.internal:1234
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
