@@ -78,23 +78,6 @@ Webpage content from {url}:
     response = llm.invoke(full_prompt)
     return response.content
 
-# Custom CSS for centered layout
-st.markdown("""
-<style>
-    /* Center the chat input when no messages */
-    .stChatFloatingInputContainer {
-        bottom: 50% !important;
-        transform: translateY(50%);
-    }
-    
-    /* Once messages exist, move it back to bottom */
-    .has-messages .stChatFloatingInputContainer {
-        bottom: 1rem !important;
-        transform: none;
-    }
-</style>
-""", unsafe_allow_html=True)
-
 # Streamlit UI
 st.title("🤖 Local LLM Chat with Memory & Web Access")
 
@@ -125,9 +108,9 @@ with st.sidebar:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Add class to body if messages exist
-if len(st.session_state.messages) > 0:
-    st.markdown('<div class="has-messages">', unsafe_allow_html=True)
+# If no messages, add vertical spacing to center the input
+if len(st.session_state.messages) == 0:
+    st.markdown("<br>" * 10, unsafe_allow_html=True)
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
@@ -151,6 +134,3 @@ if prompt := st.chat_input("Ask me anything (include URLs to fetch webpages)..."
     
     st.session_state.messages.append({"role": "assistant", "content": response})
     st.rerun()
-
-if len(st.session_state.messages) > 0:
-    st.markdown('</div>', unsafe_allow_html=True)
