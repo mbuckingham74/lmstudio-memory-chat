@@ -17,7 +17,7 @@ LM_STUDIO_URL = os.getenv("LM_STUDIO_URL", "http://host.docker.internal:1234")
 llm = ChatOpenAI(
     base_url=f"{LM_STUDIO_URL}/v1",
     api_key="not-needed",
-    model="local-model"  # Works with any model loaded in LM Studio
+    model="local-model"
 )
 
 # Memory functions
@@ -55,9 +55,7 @@ def fetch_webpage(url: str) -> str:
     except Exception as e:
         return f"Error fetching webpage: {str(e)}"
 
-# Simple function to detect and handle web requests
 def ask_llm(prompt, memories=None):
-    # Check if user wants to fetch a webpage
     url_match = re.search(r'https?://[^\s]+', prompt)
     
     full_prompt = prompt
@@ -79,6 +77,23 @@ Webpage content from {url}:
     
     response = llm.invoke(full_prompt)
     return response.content
+
+# Custom CSS for centered layout
+st.markdown("""
+<style>
+    /* Center the chat input when no messages */
+    .stChatFloatingInputContainer {
+        bottom: 50% !important;
+        transform: translateY(50%);
+    }
+    
+    /* Once messages exist, move it back to bottom */
+    .has-messages .stChatFloatingInputContainer {
+        bottom: 1rem !important;
+        transform: none;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # Streamlit UI
 st.title("🤖 Local LLM Chat with Memory & Web Access")
@@ -110,6 +125,10 @@ with st.sidebar:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# Add class to body if messages exist
+if len(st.session_state.messages) > 0:
+    st.markdown('<div class="has-messages">', unsafe_allow_html=True)
+
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
@@ -121,10 +140,8 @@ if prompt := st.chat_input("Ask me anything (include URLs to fetch webpages)..."
     
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
-            # Check for relevant memories
             relevant_memories = search_memory(prompt, n_results=3)
             
-            # Get response from LLM
             try:
                 response = ask_llm(prompt, relevant_memories)
             except Exception as e:
@@ -133,3 +150,7 @@ if prompt := st.chat_input("Ask me anything (include URLs to fetch webpages)..."
             st.markdown(response)
     
     st.session_state.messages.append({"role": "assistant", "content": response})
+    st.rerun()
+
+if len(st.session_state.messages) > 0:
+    st.markdown('</div>', unsafe_allow_html=True)
