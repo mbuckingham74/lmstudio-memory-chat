@@ -108,9 +108,11 @@ with st.sidebar:
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# If no messages, add vertical spacing to center the input
+# If no messages, add significant vertical spacing
 if len(st.session_state.messages) == 0:
-    st.markdown("<br>" * 10, unsafe_allow_html=True)
+    st.markdown("""
+        <div style='height: 40vh;'></div>
+    """, unsafe_allow_html=True)
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
