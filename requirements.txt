@@ -1,4 +1,4 @@
-streamlit
+gradio==3.50.2
 chromadb
 langchain
 langchain-community

@@ -9,8 +9,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy your scripts
 COPY . .
 
-# Expose Streamlit port
-EXPOSE 8501
+# Expose Gradio port
+EXPOSE 7860
 
-# Run the Streamlit app
-CMD ["streamlit", "run", "chat_ui.py", "--server.address=0.0.0.0"]
+# Run the Gradio app
+CMD ["python", "chat_ui_gradio.py"]
