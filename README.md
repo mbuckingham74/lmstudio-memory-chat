@@ -7,7 +7,7 @@ A containerized chat interface for local LLMs running in LM Studio, featuring pe
 - 🤖 **Local LLM Integration** - Connects to LM Studio's API server
 - 🧠 **Persistent Memory** - ChromaDB-based vector database for semantic memory
 - 🌐 **Web Browsing** - Fetch and analyze webpage content
-- 💬 **Clean UI** - Streamlit-based chat interface
+- 💬 **Clean UI** - Gradio-based chat interface
 - 🐳 **Containerized** - Easy deployment with Docker Compose
 
 ## Prerequisites
@@ -36,7 +36,7 @@ docker-compose up --build
 ```
 
 4. **Open in browser**
-   - Navigate to http://localhost:8501
+   - Navigate to http://localhost:7860
 
 ## Usage
 
@@ -62,7 +62,7 @@ Local_LLM/
 ├── docker-compose.yml    # Container orchestration
 ├── Dockerfile           # Container build instructions
 ├── requirements.txt     # Python dependencies
-├── chat_ui.py          # Streamlit chat interface
+├── chat_ui.py          # Gradio chat interface
 ├── scripts/            # Standalone Python scripts
 │   ├── memory_system.py
 │   └── web_agent.py
@@ -103,7 +103,7 @@ python3 scripts/web_agent.py
 - **Memory**: ChromaDB with `all-MiniLM-L6-v2` embeddings
 - **Web Scraping**: BeautifulSoup4 + requests
 - **LLM Integration**: LangChain with OpenAI-compatible API
-- **UI Framework**: Streamlit
+- **UI Framework**: Gradio
 
 ## Troubleshooting
 
