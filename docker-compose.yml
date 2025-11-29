@@ -8,6 +8,7 @@ services:
       - chroma_cache:/root/.cache/chroma
     environment:
       - LM_STUDIO_URL=http://host.docker.internal:1234
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
